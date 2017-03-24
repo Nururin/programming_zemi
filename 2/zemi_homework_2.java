@@ -1,35 +1,37 @@
 import java.io.*;
+import java.util.Random;
 public class zemi_homework_2 {
 	public static void main(String[] args) throws IOException {
 		battleUser user1, user2;
 		user1 = new battleUser("自分");
 		user2 = new battleUser("敵");
-		battle(user1, user2);
+		battle(new battleUser[] { user1, user2 });
 	}
-	private static void battle (battleUser user1, battleUser user2) throws IOException {
-		String name1, name2;
-		name1 = user1.getName();
-		name2 = user2.getName();
+	private static void battle (battleUser users[]) throws IOException {
+		int i, atkUser, defUser, winUser;
 		BufferedReader r = new BufferedReader(new InputStreamReader(System.in), 1);
 		System.out.println("ターン数を入力してください");
 		int turnCount = Integer.parseInt(r.readLine());
-		for (int i=0; i<turnCount; i++) {
-			attack(user1, user2);
-			if (user2.getHp() == 0) {
-				break;
-			}
-			attack(user2, user1);
-			if (user1.getHp() == 0) {
+		Random rnd = new Random();
+		int firstAttack = rnd.nextInt(2);
+		int firstDefense = (firstAttack + 1) % users.length;
+		for (i=0; i<users.length*turnCount; i++) {
+			atkUser = ((i + firstAttack) % users.length);
+			defUser = ((i + firstDefense) % users.length);
+			attack(users[atkUser], users[defUser]);
+			if (users[defUser].getHp() == 0) {
 				break;
 			}
 		}
-		if (user1.getHp() > user2.getHp()) {
-			System.out.println(user1.getName() + "の勝ち");
-		} else if (user1.getHp() < user2.getHp()) {
-			System.out.println(user2.getName() + "の勝ち");
-		} else {
-			System.out.println("引き分け");
+		winUser = 0;
+		int winUserHp = 0;
+		for (i=0; i<users.length; i++) {
+			if (users[i].getHp() > winUserHp) {
+				winUser = i;
+				winUserHp = users[i].getHp();
+			}
 		}
+		System.out.println(users[winUser].getName() + "の勝ち");
 	}
 	private static void attack (battleUser atkUser, battleUser defUser) {
 		defUser.hit(atkUser.getAtk());
