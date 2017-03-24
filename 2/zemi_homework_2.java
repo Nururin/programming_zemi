@@ -16,12 +16,10 @@ public class zemi_homework_2 {
 		for (int i=0; i<turnCount; i++) {
 			attack(user1, user2);
 			if (user2.getHp() == 0) {
-				System.out.println(user1.getName() + "の勝ち");
 				break;
 			}
 			attack(user2, user1);
 			if (user1.getHp() == 0) {
-				System.out.println(user2.getName() + "の勝ち");
 				break;
 			}
 		}
