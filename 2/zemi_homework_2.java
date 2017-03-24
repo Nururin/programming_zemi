@@ -45,10 +45,13 @@ class battleUser {
 	private String name;
 	private int hitPoint;
 	private int attack;
+	private boolean buffed;
+	private static final double buffRate = 1.2;
 	battleUser (String n, int hp, int a) {
 		name = n;
 		hitPoint = hp;
 		attack = a;
+		buffed = false;
 	}
 	battleUser (String userTitle) throws IOException {
 		System.out.println(userTitle + "の名前を入力してください");
@@ -58,13 +61,19 @@ class battleUser {
 		hitPoint = Integer.parseInt(r.readLine());
 		System.out.println(userTitle + "の攻撃力を入力してください");
 		attack = Integer.parseInt(r.readLine());
+		System.out.println(userTitle + "のバフスキル発動フラグを入力してください");
+		buffed = Boolean.valueOf(r.readLine());
 	}
 
 	void hit(int damage) {
 		this.hitPoint -= damage;
 	}
 	int getAtk() {
-		return this.attack;
+		if (this.buffed) {
+			return (int) ((double) this.attack * this.buffRate);
+		} else {
+			return this.attack;
+		}
 	}
 	int getHp() {
 		if (this.hitPoint < 0) {
