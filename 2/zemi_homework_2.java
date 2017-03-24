@@ -1,5 +1,5 @@
 import java.io.*;
-public class zemi2_1 {
+public class zemi_homework_2 {
 	public static void main(String[] args) throws IOException {
 		battleUser user1, user2;
 		user1 = new battleUser("自分");
@@ -47,19 +47,10 @@ class battleUser {
 	private String name;
 	private int hitPoint;
 	private int attack;
-	private boolean buffed;
-	private static final double buffRate = 1.2;
 	battleUser (String n, int hp, int a) {
 		name = n;
 		hitPoint = hp;
 		attack = a;
-		buffed = false;
-	}
-	battleUser (String n, int hp, int a, boolean b) {
-		name = n;
-		hitPoint = hp;
-		attack = a;
-		buffed = b;
 	}
 	battleUser (String userTitle) throws IOException {
 		System.out.println(userTitle + "の名前を入力してください");
@@ -69,18 +60,13 @@ class battleUser {
 		hitPoint = Integer.parseInt(r.readLine());
 		System.out.println(userTitle + "の攻撃力を入力してください");
 		attack = Integer.parseInt(r.readLine());
-		buffed = false;
 	}
 
 	void hit(int damage) {
 		this.hitPoint -= damage;
 	}
 	int getAtk() {
-		if (buffed) {
-			return (int) ((double) this.attack * buffRate);
-		} else {
-			return this.attack;
-		}
+		return this.attack;
 	}
 	int getHp() {
 		if (this.hitPoint < 0) {
